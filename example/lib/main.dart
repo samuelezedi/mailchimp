@@ -40,6 +40,7 @@ class _TestingMailchimpState extends State<TestingMailchimp> {
   void initState() async {
     // TODO: implement initState
     super.initState();
+    mailChimp.getRoot();
   }
 
   @override

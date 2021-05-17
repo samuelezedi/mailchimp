@@ -1,7 +1,7 @@
 name: mailchimp
 description: A Flutter Mailchimp API handler
 version: 0.0.1+dev
-author:
+authors:
   - samuelezedi@gmail.com
 homepage: https://github.com/samuelezedi/mailchimp
 

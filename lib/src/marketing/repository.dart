@@ -9,7 +9,7 @@ class MarketingRepositories {
 
   }
 
-  Future <Map<String,dynamic>> getAuthorizedApps(String fields, String excludedFields, int count, int offset) async  {
+  Future<List<Map<String, dynamic>>> getAuthorizedApps(String fields, String excludedFields, int count, int offset) async  {
 
   }
 

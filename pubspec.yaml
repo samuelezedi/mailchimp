@@ -1,5 +1,5 @@
 name: mailchimp
-description: A Flutter Mailchimp API handler
+description: A Mailchimp API Implementation in Dart
 version: 0.0.1+dev
 authors:
   - samuelezedi@gmail.com

@@ -3,9 +3,9 @@
 import 'package:mailchimp/src/marketing/repository.dart';
 
 import '../functions.dart';
-import 'models/authorized_app.dart';
-import 'models/authorized_apps.dart';
-import 'models/root.dart';
+import 'models/authorized_app_model.dart';
+import 'models/automation_model.dart';
+import 'models/root_model.dart';
 
 class MailchimpMarketing {
   MarketingRepositories repositories;
@@ -23,16 +23,16 @@ class MailchimpMarketing {
     return Root.fromJson(data);
   }
 
-  Future<AuthorizedApps> getAuthorizedApps(
+  Future<List<AuthorizedApp>> getAuthorizedApps(
       {List<String> fields,
       List<String> excludeFields,
       int count,
       int offset}) async {
     String getFields = convertListToString(fields);
     String getExcludedFields = convertListToString(excludeFields);
-    Map<String, dynamic> data = await repositories.getAuthorizedApps(
+    List<Map<String, dynamic>> data = await repositories.getAuthorizedApps(
         getFields, getExcludedFields, count, offset);
-    return AuthorizedApps.fromJson(data);
+    return data.map((value) => AuthorizedApp.fromJson(value)).toList();
   }
 
   Future<AuthorizedApp> getAuthorizedApp(
@@ -44,5 +44,9 @@ class MailchimpMarketing {
     Map<String, dynamic> data = await repositories.getAuthorizedApp(
         getFields, getExcludedFields, appId);
     return AuthorizedApp.fromJson(data);
+  }
+
+  Future<List<Automation>> getAuthomations() async {
+
   }
 }

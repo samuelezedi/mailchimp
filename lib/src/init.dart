@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'marketing/core.dart';
-import 'marketing/models/authorized_app.dart';
-import 'marketing/models/authorized_apps.dart';
-import 'marketing/models/root.dart';
+import 'marketing/models/authorized_app_model.dart';
+import 'marketing/models/root_model.dart';
 
 
 class MailChimp {
@@ -24,7 +23,7 @@ class MailChimp {
         fields: fields, excludeFields: excludeFields);
   }
 
-  Future<AuthorizedApps> getAuthorizationApps(
+  Future<List<AuthorizedApp>> getAuthorizationApps(
       {List<String> fields,
       List<String> excludeFields,
       int count = 0,

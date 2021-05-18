@@ -1,6 +1,6 @@
 name: mailchimp
 description: A Mailchimp API Implementation in Dart
-version: 0.0.1+dev
+version: 0.0.4+dev
 authors:
   - samuelezedi@gmail.com
 homepage: https://github.com/samuelezedi/mailchimp

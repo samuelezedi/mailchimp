@@ -35,16 +35,34 @@ class TestingMailchimp extends StatefulWidget {
 
 class _TestingMailchimpState extends State<TestingMailchimp> {
 
-  MailChimp mailChimp = MailChimp.marketing(apiKey: "sdf", server: "Sdf");
+  // MailChimpTransaction mailChimpTransaction = MailChimpTransaction(apiKey: "Sdf", server: "SDf");
+  MailChimpMarketing marketing = MailChimpMarketing(apiKey: "*****", server: "us10");
+
   @override
-  void initState() async {
+  void initState()  {
     // TODO: implement initState
     super.initState();
-    mailChimp.getRoot();
+    // mailChimpTransaction.getUser();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: InkWell(
+              onTap: ()async{
+                var data = await marketing.getRoot();
+
+              },
+              child: Text('Check',style: TextStyle(fontSize: 20),),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

@@ -21,7 +21,7 @@ class Root {
   String lastLogin;
   int totalSubscribers;
   Map<String, int> industryStats;
-  List<Map<String, dynamic>> links;
+  List links;
 
   Root({this.accountId, this.loginId, this.accountName, this.email, this.firstName, this.lastName, this.userName, this.avatarUrl, this.role, this.memberSince, this.pricingPlanType, this.firstPayment, this.accountTimezone, this.accountIndustry, this.contact, this.proEnabled, this.lastLogin, this.totalSubscribers, this.industryStats, this.links});
 

@@ -1,12 +1,40 @@
 
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:mailchimp/src/marketing/constants.dart';
+
 class MarketingRepositories {
   String apiKey;
   String server;
+  String authString;
+  String encoded;
+  Map<String, String> headers;
 
-  MarketingRepositories(this.apiKey, this.server);
+  MarketingRepositories(this.apiKey, this.server) {
+    String authString = "apikey:$apiKey";
+    String encoded = base64.encode(utf8.encode(authString));
+    headers = {
+      "content-type": "application/json",
+      "Authorization": "Basic $encoded",
+    };
+  }
 
   Future <Map<String,dynamic>> getRoot(String fields, String excludedFields) async  {
-
+    String base =  baseUrl.replaceAll("<dc>", "$server");
+    var queryParameters = {
+      'fields': '$fields',
+      'exclude_fields': '$excludedFields',
+    };
+    var uri = Uri.https('$base', '/3.0$get_root', queryParameters);
+    try{
+      final response = await get(uri,headers: headers);
+      print(response.body);
+      return jsonDecode(response.body);
+    }catch(e) {
+      print("Error: "+e.toString());
+      return null;
+    }
   }
 
   Future<List<Map<String, dynamic>>> getAuthorizedApps(String fields, String excludedFields, int count, int offset) async  {

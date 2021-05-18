@@ -7,10 +7,10 @@ import 'models/authorized_app_model.dart';
 import 'models/automation_model.dart';
 import 'models/root_model.dart';
 
-class MailchimpMarketing {
+class MailChimpMarketingCore {
   MarketingRepositories repositories;
 
-  MailchimpMarketing.setConfigs({apiKey, server}) {
+  MailChimpMarketingCore.setConfigs({apiKey, server}) {
     repositories = MarketingRepositories(apiKey, server);
   }
 

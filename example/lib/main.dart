@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mailchimp/mailchimp.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,34 +35,54 @@ class TestingMailchimp extends StatefulWidget {
 }
 
 class _TestingMailchimpState extends State<TestingMailchimp> {
-
   // MailChimpTransaction mailChimpTransaction = MailChimpTransaction(apiKey: "Sdf", server: "SDf");
-  MailChimpMarketing marketing = MailChimpMarketing(apiKey: "*****", server: "us10");
+  MailChimpMarketing marketing =
+      MailChimpMarketing(apiKey: "*****", server: "us10");
 
   @override
-  void initState()  {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    // mailChimpTransaction.getUser();
-
+    marketing.getAuthorizationApp(fields: ['jsdklf', 'sdfd']);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: InkWell(
-              onTap: ()async{
-                var data = await marketing.getRoot();
-
-              },
-              child: Text('Check',style: TextStyle(fontSize: 20),),
-            ),
-          )
-        ],
+    bool useSensor = false;
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Native Orientation Example'),
+          actions: <Widget>[
+            Center(child: Text('Sensor:')),
+            Switch(
+                value: useSensor,
+                onChanged: (val) => setState(() => useSensor = val)),
+          ],
+        ),
+        body: NativeDeviceOrientationReader(
+          builder: (context) {
+            final orientation =
+                NativeDeviceOrientationReader.orientation(context);
+            print('Received new orientation: $orientation');
+            if (orientation == NativeDeviceOrientation.landscapeLeft) {
+              return RotatedBox(
+                  quarterTurns: 1,
+                  child: Center(
+                      child: Text('Native Orientation: $orientation\n')));
+            } else if (orientation == NativeDeviceOrientation.landscapeRight) {
+              return RotatedBox(
+                  quarterTurns: 3,
+                  child: Center(
+                      child: Text('Native Orientation: $orientation\n')));
+            }
+            return RotatedBox(
+                quarterTurns: 4,
+                child:
+                    Center(child: Text('Native Orientation: $orientation\n')));
+          },
+          useSensor: useSensor,
+        ),
       ),
     );
   }

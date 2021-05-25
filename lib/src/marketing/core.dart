@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mailchimp/src/marketing/enums/delay.dart';
 import 'package:mailchimp/src/marketing/repository.dart';
 
 import '../functions.dart';
@@ -19,7 +20,7 @@ class MailChimpMarketingCore {
     String getFields = convertListToString(fields);
     String getExcludedFields = convertListToString(excludeFields);
     Map<String, dynamic> data =
-        await repositories.getRoot(getFields, getExcludedFields);
+        await repositories.getRoot(fields, excludeFields);
     return Root.fromJson(data);
   }
 
@@ -31,16 +32,16 @@ class MailChimpMarketingCore {
     String getFields = convertListToString(fields);
     String getExcludedFields = convertListToString(excludeFields);
     List<Map<String, dynamic>> data = await repositories.getAuthorizedApps(
-        getFields, getExcludedFields, count, offset);
+        fields, excludeFields, count, offset);
     return data.map((value) => AuthorizedApp.fromJson(value)).toList();
   }
 
   Future<AuthorizedApp> getAuthorizedApp(
-      {List<String> fields, List<String> excludeFields, int appId}) async {
+      {List<String> fields, List<String> excludeFields, String appId}) async {
     String getFields = convertListToString(fields);
     String getExcludedFields = convertListToString(excludeFields);
-    Map<String, dynamic> data = await repositories.getAuthorizedApp(
-        getFields, getExcludedFields, appId);
+    Map<String, dynamic> data =
+        await repositories.getAuthorizedAppInfo(fields, excludeFields, appId);
     return AuthorizedApp.fromJson(data);
   }
 
@@ -60,8 +61,8 @@ class MailChimpMarketingCore {
     List<Map<String, dynamic>> data = await repositories.getAutomations(
         count,
         offset,
-        getFields,
-        getExcludedFields,
+        fields,
+        excludeFields,
         beforeCreateTime,
         sinceCreateTime,
         beforeStartTime,
@@ -70,11 +71,18 @@ class MailChimpMarketingCore {
     return data.map((value) => Automation.fromJson(value)).toList();
   }
 
-  Future<Automation> postAutomations(
-      {@required Map<String, dynamic> recipients,
-      @required Map<String, dynamic> triggerSettings,
-      Map<String, dynamic> settings}) async {
-    return Automation.fromJson(await repositories.postAutomations(
+  Future<Automation> addAutomation(
+      {@required String listId,
+      @required String storeId,
+      String fromName,
+      String replyTo}) async {
+    Map<String, String> recipients = {"list_id": listId, "store_id": storeId};
+    Map<String, String> triggerSettings = {"workflow_type": "abandonedCart"};
+    Map<String, String> settings = {
+      "from_name": fromName ?? '',
+      "reply_to": replyTo ?? ''
+    };
+    return Automation.fromJson(await repositories.addAutomation(
         recipients, triggerSettings, settings));
   }
 
@@ -86,33 +94,65 @@ class MailChimpMarketingCore {
     String getFields = convertListToString(fields);
     String getExcludedFields = convertListToString(excludeFields);
     return Automation.fromJson(
-        await repositories.getAutomationInfo(id, getFields, getExcludedFields));
+        await repositories.getAutomationInfo(id, fields, excludeFields));
   }
 
   Future<void> startAutomationEmails({@required String id}) async {
-    await repositories.startAutomationEmails(id);
-    return;
+    return await repositories.startAutomationEmails(id);
   }
 
   Future<void> pauseAutomationEmails({@required String id}) async {
-    await repositories.pauseAutomationEmails(id);
-    return;
+    return await repositories.pauseAutomationEmails(id);
   }
 
   Future<void> archiveAutomation({@required String id}) async {
-    await repositories.archiveAutomation(id);
-    return;
+    return await repositories.archiveAutomation(id);
   }
 
-  Future<List<Map<String,dynamic>>> listAutomatedEmails({@required String id}) async {
+  Future<List<Map<String, dynamic>>> listAutomatedEmails(
+      {@required String id}) async {
     return await repositories.listAutomatedEmails(id);
   }
 
-  Future<Map<String, dynamic>> getWorkflowEmailInfo({@required String id, @required String emailId}) async {
+  Future<Map<String, dynamic>> getWorkflowEmailInfo(
+      {@required String id, @required String emailId}) async {
     return await repositories.getWorkflowEmailInfo(id, emailId);
   }
 
-  Future<void> deleteWorkflowEmail({@required String id, @required String emailId}) async {
+  Future<void> deleteWorkflowEmail(
+      {@required String id, @required String emailId}) async {
     return await repositories.deleteWorkflowEmail(id, emailId);
+  }
+
+  Future<Map<String, dynamic>> updateWorkflowEmail(
+      {@required String workflowId,
+      @required String workflowEmailId,
+      int delayAmount,
+      DelayType delayType,
+      DelayDirection delayDirection,
+      DelayAction delayAction,
+      String subjectLine,
+      String previewText,
+      String title,
+      String fromName,
+      String replyTo}) async {
+    String delayTypeText;
+    String delayDirectionText;
+    String delayActionText;
+    Map<String, dynamic> delay = {
+      "amount": delayAmount ?? 0,
+      "type": delayTypeText,
+      "direction": delayDirectionText,
+      "action": delayActionText
+    };
+    Map<String, String> settings = {
+      "subject_line": subjectLine ?? '',
+      "preview_text": previewText ?? '',
+      "title": title ?? '',
+      "from_name": fromName ?? '',
+      "reply_to": replyTo ?? ''
+    };
+    return await repositories.updateWorkflowEmail(
+        workflowId, workflowEmailId, delay, settings);
   }
 }

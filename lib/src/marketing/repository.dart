@@ -1,8 +1,13 @@
-
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mailchimp/src/marketing/constants.dart';
+import 'package:mailchimp/src/marketing/enums/api_request_enum.dart';
+
+import 'constants.dart';
+import 'constants.dart';
+import 'constants.dart';
 
 class MarketingRepositories {
   String apiKey;
@@ -20,76 +25,151 @@ class MarketingRepositories {
     };
   }
 
-  Future <Map<String,dynamic>> getRoot(String fields, String excludedFields) async  {
-    String base =  baseUrl.replaceAll("<dc>", "$server");
+  Future<dynamic> apiRequest(RequestType type, String endpoint,
+      Map<String, dynamic> queryParameters,{int successCode = 200}) async {
+    try {
+      String base = baseUrl.replaceAll("<dc>", "$server");
+      var uri = Uri.https('$base', endpoint, queryParameters);
+
+      final response = type == RequestType.GET
+          ? await get(uri, headers: headers)
+          : type == RequestType.POST
+              ? await post(uri, headers: headers)
+              : type == RequestType.DELETE
+                  ? await delete(uri, headers: headers)
+                  : await patch(uri, headers: headers);
+
+      print(response.body);
+      if (response.statusCode == successCode) {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      print("Error: " + e.toString());
+    }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>> getRoot(
+      List<String> fields, List<String> excludedFields) async {
     var queryParameters = {
       'fields': '$fields',
       'exclude_fields': '$excludedFields',
     };
-    var uri = Uri.https('$base', '/3.0$get_root', queryParameters);
-    try{
-      final response = await get(uri,headers: headers);
-      print(response.body);
-      return jsonDecode(response.body);
-    }catch(e) {
-      print("Error: "+e.toString());
-      return null;
-    }
+
+    return apiRequest(
+        RequestType.GET, '/3.0${Endpoint.get_root}', queryParameters);
   }
 
-  Future<List<Map<String, dynamic>>> getAuthorizedApps(String fields, String excludedFields, int count, int offset) async  {
+  Future<List<Map<String, dynamic>>> getAuthorizedApps(List<String> fields,
+      List<String> excludedFields, int count, int offset) async {
+    var queryParameters = {
+      'fields': '$fields',
+      'exclude_fields': '$excludedFields',
+      'count': count,
+      'offset': offset
+    };
 
+    return apiRequest(
+        RequestType.GET, '/3.0${Endpoint.authorizedApps}', queryParameters);
   }
 
-  Future <Map<String,dynamic>> getAuthorizedApp(String fields, String excludedFields, int appId) async  {
+  Future<Map<String, dynamic>> getAuthorizedAppInfo(
+      List<String> fields, List<String> excludedFields, String appId) async {
+    var queryParameters = {
+      'fields': '$fields',
+      'exclude_fields': '$excludedFields',
+    };
 
+    return apiRequest(RequestType.GET,
+        '/3.0${Endpoint.getAuthorizedAppInfo(appId)}', queryParameters);
   }
 
-  Future<List<Map<String, dynamic>>> getAutomations(int count,
-    int offset,
-    String fields,
-    String excludeFields,
-    String beforeCreateTime,
-    String sinceCreateTime,
-    String beforeStartTime,
-    String sinceStartTime,
-    String status) async {
+  Future<List<Map<String, dynamic>>> getAutomations(
+      int count,
+      int offset,
+      List<String> fields,
+      List<String> excludedFields,
+      String beforeCreateTime,
+      String sinceCreateTime,
+      String beforeStartTime,
+      String sinceStartTime,
+      String status) async {
+    var queryParameters = {
+      'fields': '$fields',
+      'count': count,
+      'offset': offset,
+      'exclude_fields': '$excludedFields',
+      'before_create_time': beforeCreateTime,
+      'since_create_time': sinceCreateTime,
+      'before_start_time': beforeStartTime,
+      'since_start_time': sinceStartTime,
+      'status': status
+    };
 
+    return apiRequest(
+        RequestType.GET, '/3.0${Endpoint.automations}', queryParameters);
   }
 
-  Future<Map<String, dynamic>> postAutomations(
-      Map<String, dynamic> recipients,
-      Map<String, dynamic> triggerSettings,
-        Map<String, dynamic> settings) async {
-
+  Future<Map<String, dynamic>> addAutomation(Map<String, String> recipients,
+      Map<String, String> triggerSettings, Map<String, String> settings) async {
+    var queryParameters = {
+      'recipients': recipients,
+      'trigger_settings': triggerSettings,
+      'settings': settings,
+    };
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.automations}', queryParameters);
   }
 
-  Future<Map<String, dynamic>> getAutomationInfo(String id, String fields, String excludedFields) async {
-
+  Future<Map<String, dynamic>> getAutomationInfo(
+      String id, List<String> fields, List<String> excludedFields) async {
+    var queryParameters = {
+      'fields': '$fields',
+      'exclude_fields': '$excludedFields',
+    };
+    return apiRequest(RequestType.GET, '/3.0${Endpoint.getAutomationInfo(id)}',
+        queryParameters);
   }
 
   Future<void> startAutomationEmails(String id) {
-
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.startAutomationEmails(id)}', {},successCode: 204);
   }
 
   Future<void> pauseAutomationEmails(String id) {
-
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.pauseAutomationEmails(id)}', {},successCode: 204);
   }
 
   Future<void> archiveAutomation(String id) {
-
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.archiveAutomation(id)}', {},successCode: 204);
   }
 
-  Future<List<Map<String,dynamic>>> listAutomatedEmails(String id) async {
-
+  Future<List<Map<String, dynamic>>> listAutomatedEmails(String id) async {
+    return apiRequest(
+        RequestType.GET, '/3.0${Endpoint.listAutomationEmails(id)}', {});
   }
 
-  Future<Map<String,dynamic>> getWorkflowEmailInfo(String id, String emailId) async {
-
+  Future<Map<String, dynamic>> getWorkflowEmailInfo(
+      String id, String emailId) async {
+    return apiRequest(
+        RequestType.GET, '/3.0${Endpoint.workflowEmailInfo(id, emailId)}', {});
   }
 
   Future<void> deleteWorkflowEmail(String id, String emailId) async {
-
+    return apiRequest(RequestType.DELETE,
+        '/3.0${Endpoint.workflowEmailInfo(id, emailId)}', {},successCode: 204);
   }
 
+  Future<Map<String, dynamic>> updateWorkflowEmail(String id, String emailId,
+      Map<String, dynamic> delay, Map<String, String> settings) async {
+    var queryParameters = {
+      'delay': delay,
+      'settings': settings,
+    };
+    return apiRequest(RequestType.PATCH,
+        '/3.0${Endpoint.workflowEmailInfo(id, emailId)}', queryParameters);
+  }
 }

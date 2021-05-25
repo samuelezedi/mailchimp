@@ -122,4 +122,55 @@ class MailChimpMarketing {
         fromName: fromName,
         replyTo: replyTo);
   }
+
+  Future<void> pauseAutomatedEmail(
+      {@required String id, @required String emailId}) async {
+    return await _mailChimpMarketingCore.pauseAutomatedEmail(
+        id: id, emailId: emailId);
+  }
+
+  Future<void> startAutomatedEmail(
+      {@required String id, @required String emailId}) async {
+    return await _mailChimpMarketingCore.startAutomatedEmail(
+        id: id, emailId: emailId);
+  }
+
+  Future<Map<String, dynamic>> getAutomatedEmailSubscribers(
+      {@required String id, @required String emailId}) async {
+    return await _mailChimpMarketingCore.getAutomatedEmailSubscribers(
+        id: id, emailId: emailId);
+  }
+
+  Future<Map<String, dynamic>> addEmailSubscriber(
+      {@required String id,
+      @required String emailId,
+      @required emailAddress}) async {
+    return await _mailChimpMarketingCore.addEmailSubscriber(
+        id: id, emailId: emailId, emailAddress: emailAddress);
+  }
+
+  Future<Map<String, dynamic>> getEmailSubscriber(
+      {@required String id,
+      @required String emailId,
+      @required subscriberHash}) async {
+    return await _mailChimpMarketingCore.getEmailSubscriber(
+        id: id, emailId: emailId, subscriberHash: subscriberHash);
+  }
+
+  Future<Map<String, dynamic>> getRemovedSubscribers(
+      {@required String id}) async {
+    return await _mailChimpMarketingCore.getRemovedSubscribers(id: id);
+  }
+
+  Future<Map<String, dynamic>> removeSubscriber(
+      {@required String id, @required emailAddress}) async {
+    return await _mailChimpMarketingCore.removeSubscriber(
+        id: id, emailAddress: emailAddress);
+  }
+
+  Future<Map<String, dynamic>> getRemovedSubscriber(
+      {@required String id, @required subscriberHash}) async {
+    return await _mailChimpMarketingCore.getRemovedSubscriber(
+        id: id, subscriberHash: subscriberHash);
+  }
 }

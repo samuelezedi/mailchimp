@@ -136,9 +136,9 @@ class MailChimpMarketingCore {
       String title,
       String fromName,
       String replyTo}) async {
-    String delayTypeText;
-    String delayDirectionText;
-    String delayActionText;
+    String delayTypeText = fetchdelayType(delayType);
+    String delayDirectionText = fetchdelayDirection(delayDirection);
+    String delayActionText = fetchdelayAction(delayAction);
     Map<String, dynamic> delay = {
       "amount": delayAmount ?? 0,
       "type": delayTypeText,
@@ -154,5 +154,49 @@ class MailChimpMarketingCore {
     };
     return await repositories.updateWorkflowEmail(
         workflowId, workflowEmailId, delay, settings);
+  }
+
+  Future<void> pauseAutomatedEmail(
+      {@required String id, @required String emailId}) async {
+    return await repositories.pauseAutomatedEmail(id, emailId);
+  }
+
+  Future<void> startAutomatedEmail(
+      {@required String id, @required String emailId}) async {
+    return await repositories.startAutomatedEmail(id, emailId);
+  }
+
+  Future<Map<String, dynamic>> getAutomatedEmailSubscribers(
+      {@required String id, @required String emailId}) async {
+    return await repositories.getAutomatedEmailSubscribers(id, emailId);
+  }
+
+  Future<Map<String, dynamic>> addEmailSubscriber(
+      {@required String id,
+      @required String emailId,
+      @required emailAddress}) async {
+    return await repositories.addEmailSubscriber(id, emailId, emailAddress);
+  }
+
+  Future<Map<String, dynamic>> getEmailSubscriber(
+      {@required String id,
+      @required String emailId,
+      @required subscriberHash}) async {
+    return await repositories.getEmailSubscriber(id, emailId, subscriberHash);
+  }
+
+  Future<Map<String, dynamic>> getRemovedSubscribers(
+      {@required String id}) async {
+    return await repositories.getRemovedSubscribers(id);
+  }
+
+  Future<Map<String, dynamic>> removeSubscriber(
+      {@required String id, @required String emailAddress}) async {
+    return await repositories.removeSubscriber(id, emailAddress);
+  }
+
+  Future<Map<String, dynamic>> getRemovedSubscriber(
+      {@required String id, @required String subscriberHash}) async {
+    return await repositories.getRemovedSubscriber(id, subscriberHash);
   }
 }

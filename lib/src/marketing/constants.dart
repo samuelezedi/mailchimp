@@ -26,13 +26,25 @@ class Endpoint {
   static String listAutomationEmails(String workflow_id) =>
       "/automations/$workflow_id/emails";
 
-  static String workflowEmailInfo(String workflow_id,String workflow_email_id) =>
+  static String workflowEmail(String workflow_id,String workflow_email_id) =>
       "/automations/$workflow_id/emails/$workflow_email_id";
 
 
-  static const String updateWorkflowEmail =
-      "/automations/{workflow_id}/emails/{workflow_email_id}";
+  static String pauseAutomatedEmail(String workflow_id,String workflow_email_id) =>
+      "/automations/$workflow_id/emails/$workflow_email_id/actions/pause";
 
-  static const String pauseAutomatedEmail =
-      "/automations/{workflow_id}/emails/{workflow_email_id}/actions/pause";
+  static String startAutomatedEmail(String workflow_id,String workflow_email_id) =>
+      "/automations/$workflow_id/emails/$workflow_email_id/actions/start";
+
+  static String emailSubscribers(String workflow_id,String workflow_email_id) =>
+      "/automations/$workflow_id/emails/$workflow_email_id/queue";
+
+  static String getEmailSubscriber(String workflow_id,String workflow_email_id,String subscriber_hash) =>
+      "/automations/$workflow_id/emails/$workflow_email_id/queue/$subscriber_hash";
+
+  static String removedSubscribers(String workflow_id) =>
+      "/automations/$workflow_id/removed-subscribers";
+
+  static String getRemovedSubscriber(String workflow_id,String subscriber_hash) =>
+      "/automations/$workflow_id/removed-subscribers/$subscriber_hash";
 }

@@ -155,12 +155,12 @@ class MarketingRepositories {
   Future<Map<String, dynamic>> getWorkflowEmailInfo(
       String id, String emailId) async {
     return apiRequest(
-        RequestType.GET, '/3.0${Endpoint.workflowEmailInfo(id, emailId)}', {});
+        RequestType.GET, '/3.0${Endpoint.workflowEmail(id, emailId)}', {});
   }
 
   Future<void> deleteWorkflowEmail(String id, String emailId) async {
     return apiRequest(RequestType.DELETE,
-        '/3.0${Endpoint.workflowEmailInfo(id, emailId)}', {},successCode: 204);
+        '/3.0${Endpoint.workflowEmail(id, emailId)}', {},successCode: 204);
   }
 
   Future<Map<String, dynamic>> updateWorkflowEmail(String id, String emailId,
@@ -170,6 +170,50 @@ class MarketingRepositories {
       'settings': settings,
     };
     return apiRequest(RequestType.PATCH,
-        '/3.0${Endpoint.workflowEmailInfo(id, emailId)}', queryParameters);
+        '/3.0${Endpoint.workflowEmail(id, emailId)}', queryParameters);
+  }
+
+  Future<void> pauseAutomatedEmail(String id, String emailId) async {
+    return apiRequest(RequestType.POST,
+        '/3.0${Endpoint.pauseAutomatedEmail(id, emailId)}', {},successCode: 204);
+  }
+
+  Future<void> startAutomatedEmail(String id, String emailId) async {
+    return apiRequest(RequestType.POST,
+        '/3.0${Endpoint.startAutomatedEmail(id, emailId)}', {},successCode: 204);
+  }
+
+  Future<Map<String,dynamic>> getAutomatedEmailSubscribers(String id, String emailId) async {
+    return apiRequest(RequestType.GET,
+        '/3.0${Endpoint.emailSubscribers(id, emailId)}', {},successCode: 200);
+  }
+
+  Future<Map<String,dynamic>> addEmailSubscriber(String id, String emailId,String emailAddress) async {
+    var queryParameters = {
+      'email_address':emailAddress
+    };
+    return apiRequest(RequestType.POST,
+        '/3.0${Endpoint.emailSubscribers(id, emailId)}', queryParameters,successCode: 200);
+  }
+  Future<Map<String,dynamic>> getEmailSubscriber(String id, String emailId, String subscriberHash) async {
+    return apiRequest(RequestType.GET,
+        '/3.0${Endpoint.getEmailSubscriber(id, emailId,subscriberHash)}', {},successCode: 200);
+  }
+
+  Future<Map<String,dynamic>> getRemovedSubscribers(String id) async {
+    return apiRequest(RequestType.GET,
+        '/3.0${Endpoint.removedSubscribers(id)}', {},successCode: 200);
+  }
+
+  Future<Map<String,dynamic>> removeSubscriber(String id, String emailAddress) async {
+    var queryParameters = {
+      'email_address':emailAddress
+    };
+    return apiRequest(RequestType.POST,
+        '/3.0${Endpoint.removedSubscribers(id)}', queryParameters,successCode: 200);
+  }
+  Future<Map<String,dynamic>> getRemovedSubscriber(String id, String subscriberHash) async {
+    return apiRequest(RequestType.GET,
+        '/3.0${Endpoint.getRemovedSubscriber(id,subscriberHash)}', {},successCode: 200);
   }
 }

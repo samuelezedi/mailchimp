@@ -3,6 +3,7 @@ import 'package:mailchimp/src/marketing/enums/delay.dart';
 import 'package:mailchimp/src/transaction/core.dart';
 
 import 'marketing/core.dart';
+import 'marketing/enums/api_request_enum.dart';
 import 'marketing/enums/automation_status_enum.dart';
 import 'marketing/models/authorized_app_model.dart';
 import 'marketing/models/automation_model.dart';
@@ -172,5 +173,118 @@ class MailChimpMarketing {
       {@required String id, @required subscriberHash}) async {
     return await _mailChimpMarketingCore.getRemovedSubscriber(
         id: id, subscriberHash: subscriberHash);
+  }
+
+  Future<Map<String, dynamic>> getBatchRequests(
+      {List<String> fields = const [],
+      List<String> excludeFields = const [],
+      int count = 10,
+      int offset = 0}) async {
+    return await _mailChimpMarketingCore.getBatchRequests(
+        fields: fields,
+        excludeFields: excludeFields,
+        count: count,
+        offset: offset);
+  }
+
+  Future<Map<String, dynamic>> startBatchOperations({
+    @required RequestType requestMethod,
+    @required String path,
+    @required Map<String, dynamic> jsonBody,
+    @required String operationId,
+    int count = 10,
+    int offset = 0,
+  }) async {
+    return await _mailChimpMarketingCore.startBatchOperations(
+      requestMethod: requestMethod,
+      path: path,
+      jsonBody: jsonBody,
+      operationId: operationId,
+      count: count,
+      offset: offset,
+    );
+  }
+
+  Future<Map<String, dynamic>> getBatchOperationStatus({
+    @required String batchId,
+    List<String> fields = const [],
+    List<String> excludeFields = const [],
+  }) async {
+    return await _mailChimpMarketingCore.getBatchOperationStatus(
+        batchId: batchId, fields: fields, excludeFields: excludeFields);
+  }
+
+  Future<Map<String, dynamic>> deleteBatchRequest(String batchId) async {
+    return await _mailChimpMarketingCore.deleteBatchRequest(batchId);
+  }
+
+  Future<Map<String, dynamic>> getBatchWebhooks(
+      {List<String> fields = const [],
+      List<String> excludedFields = const [],
+      int count = 10,
+      int offset = 0}) async {
+    return await _mailChimpMarketingCore.getBatchWebhooks(
+        fields: fields,
+        excludedFields: excludedFields,
+        count: count,
+        offset: offset);
+  }
+
+  Future<Map<String, dynamic>> addBatchWebhook(String url) async {
+    return await _mailChimpMarketingCore.addBatchWebhook(url);
+  }
+
+  Future<Map<String, dynamic>> getBatchWebhookInfo(
+      {@required String batchWebhookId,
+      List<String> fields = const [],
+      List<String> excludedFields = const []}) async {
+    return await _mailChimpMarketingCore.getBatchWebhookInfo(
+        batchWebhookId: batchWebhookId,
+        fields: fields,
+        excludedFields: excludedFields);
+  }
+
+  Future<Map<String, dynamic>> updateBatchWebhook(
+      {@required String batchWebhookId, @required String url}) async {
+    return await _mailChimpMarketingCore.updateBatchWebhook(
+        batchWebhookId: batchWebhookId, url: url);
+  }
+
+  Future<void> deleteBatchWebhook(String batchWebhookId) async {
+    return await _mailChimpMarketingCore.deleteBatchWebhook(batchWebhookId);
+  }
+
+  Future<Map<String, dynamic>> getCampaignFolders(
+      {List<String> fields = const [],
+      List<String> excludedFields = const [],
+      int count = 10,
+      int offset = 0}) async {
+    return await _mailChimpMarketingCore.getCampaignFolders(
+        fields: fields,
+        excludedFields: excludedFields,
+        count: count,
+        offset: offset);
+  }
+
+  Future<Map<String, dynamic>> addCampaignFolder(String name) async {
+    return await _mailChimpMarketingCore.addCampaignFolder(name);
+  }
+
+  Future<Map<String, dynamic>> getCampaignFolderInfo(
+      {@required String folderId,
+      List<String> fields = const [],
+      List<String> excludedFields = const []}) async {
+    return await _mailChimpMarketingCore.getCampaignFolderInfo(
+        folderId: folderId, fields: fields, excludedFields: excludedFields);
+  }
+
+  Future<Map<String, dynamic>> updateCampaignFolder(
+      {@required String folderId, @required String name}) async {
+    return await _mailChimpMarketingCore.updateCampaignFolder(
+        folderId: folderId, name: name);
+  }
+
+  Future<void> deleteCampaignFolder(String folderId) async {
+    return await _mailChimpMarketingCore.deleteCampaignFolder(folderId);
   }
 }

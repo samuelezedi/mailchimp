@@ -1,18 +1,19 @@
 const String baseUrl = "<dc>.api.mailchimp.com";
 
 class Endpoint {
-
   static const String get_root = "/";
 
   static const String authorizedApps = "/authorized-apps";
 
-  static String getAuthorizedAppInfo(String app_id) => "/authorized-apps/$app_id";
+  static String getAuthorizedAppInfo(String app_id) =>
+      "/authorized-apps/$app_id";
 
   static const String automations = "/automations";
 
   static const String postAutomations = "/automations";
 
-  static String getAutomationInfo(String workflow_id) => "/automations/$workflow_id";
+  static String getAutomationInfo(String workflow_id) =>
+      "/automations/$workflow_id";
 
   static String startAutomationEmails(String workflow_id) =>
       "/automations/$workflow_id/actions/start-all-emails";
@@ -26,25 +27,41 @@ class Endpoint {
   static String listAutomationEmails(String workflow_id) =>
       "/automations/$workflow_id/emails";
 
-  static String workflowEmail(String workflow_id,String workflow_email_id) =>
+  static String workflowEmail(String workflow_id, String workflow_email_id) =>
       "/automations/$workflow_id/emails/$workflow_email_id";
 
-
-  static String pauseAutomatedEmail(String workflow_id,String workflow_email_id) =>
+  static String pauseAutomatedEmail(
+          String workflow_id, String workflow_email_id) =>
       "/automations/$workflow_id/emails/$workflow_email_id/actions/pause";
 
-  static String startAutomatedEmail(String workflow_id,String workflow_email_id) =>
+  static String startAutomatedEmail(
+          String workflow_id, String workflow_email_id) =>
       "/automations/$workflow_id/emails/$workflow_email_id/actions/start";
 
-  static String emailSubscribers(String workflow_id,String workflow_email_id) =>
+  static String emailSubscribers(
+          String workflow_id, String workflow_email_id) =>
       "/automations/$workflow_id/emails/$workflow_email_id/queue";
 
-  static String getEmailSubscriber(String workflow_id,String workflow_email_id,String subscriber_hash) =>
+  static String getEmailSubscriber(String workflow_id, String workflow_email_id,
+          String subscriber_hash) =>
       "/automations/$workflow_id/emails/$workflow_email_id/queue/$subscriber_hash";
 
   static String removedSubscribers(String workflow_id) =>
       "/automations/$workflow_id/removed-subscribers";
 
-  static String getRemovedSubscriber(String workflow_id,String subscriber_hash) =>
+  static String getRemovedSubscriber(
+          String workflow_id, String subscriber_hash) =>
       "/automations/$workflow_id/removed-subscribers/$subscriber_hash";
+
+  static const String batches = '/batches';
+
+  static String batchOperation(String batchId) => '/batches/$batchId';
+
+  static const String batchWebhooks = '/batch-webhooks';
+
+  static String batchWebhookInfo(String batchWebhookId) => '/batch-webhooks/$batchWebhookId';
+
+  static const String campaignFolders = '/campaign-folders';
+
+  static String campaignFolderInfo(String folderId) => '/campaign-folders/$folderId';
 }

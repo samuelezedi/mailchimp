@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:mailchimp/src/marketing/enums/api_request_enum.dart';
 import 'package:mailchimp/src/marketing/enums/delay.dart';
 import 'package:mailchimp/src/marketing/repository.dart';
 
@@ -198,5 +201,101 @@ class MailChimpMarketingCore {
   Future<Map<String, dynamic>> getRemovedSubscriber(
       {@required String id, @required String subscriberHash}) async {
     return await repositories.getRemovedSubscriber(id, subscriberHash);
+  }
+
+  Future<Map<String, dynamic>> getBatchRequests(
+      {List<String> fields,
+      List<String> excludeFields,
+      int count,
+      int offset}) async {
+    return await repositories.getBatchRequests(
+        fields, excludeFields, count, offset);
+  }
+
+  Future<Map<String, dynamic>> startBatchOperations({
+    @required RequestType requestMethod,
+    @required String path,
+    @required Map<String, dynamic> jsonBody,
+    @required String operationId,
+    int count,
+    int offset,
+  }) async {
+    String requestMethodString = fetchRequestMethod(requestMethod);
+    String jsonBodyString = jsonEncode(jsonBody);
+    return await repositories.startBatchOperations(
+        requestMethodString, path, count, offset, jsonBodyString, operationId);
+  }
+
+  Future<Map<String, dynamic>> getBatchOperationStatus({
+    @required String batchId,
+    List<String> fields,
+    List<String> excludeFields,
+  }) async {
+    return await repositories.getBatchOperationStatus(
+        batchId, fields, excludeFields);
+  }
+
+  Future<Map<String, dynamic>> deleteBatchRequest(String batchId) async {
+    return await repositories.deleteBatchRequest(batchId);
+  }
+
+  Future<Map<String, dynamic>> getBatchWebhooks(
+      {List<String> fields,
+      List<String> excludedFields,
+      int count,
+      int offset}) async {
+    return await repositories.getBatchWebhooks(
+        fields, excludedFields, count, offset);
+  }
+
+  Future<Map<String, dynamic>> addBatchWebhook(String url) async {
+    return await repositories.addBatchWebhook(url);
+  }
+
+  Future<Map<String, dynamic>> getBatchWebhookInfo(
+      {String batchWebhookId,
+      List<String> fields,
+      List<String> excludedFields}) async {
+    return await repositories.getBatchWebhookInfo(
+        batchWebhookId, fields, excludedFields);
+  }
+
+  Future<Map<String, dynamic>> updateBatchWebhook(
+      {String batchWebhookId, String url}) async {
+    return await repositories.updateBatchWebhook(batchWebhookId, url);
+  }
+
+  Future<void> deleteBatchWebhook(String batchWebhookId) async {
+    return await repositories.deleteBatchWebhook(batchWebhookId);
+  }
+
+  Future<Map<String, dynamic>> getCampaignFolders(
+      {List<String> fields,
+        List<String> excludedFields,
+        int count,
+        int offset}) async {
+    return await repositories.getCampaignFolders(
+        fields, excludedFields, count, offset);
+  }
+
+  Future<Map<String, dynamic>> addCampaignFolder(String name) async {
+    return await repositories.addCampaignFolder(name);
+  }
+
+  Future<Map<String, dynamic>> getCampaignFolderInfo(
+      {String folderId,
+        List<String> fields,
+        List<String> excludedFields}) async {
+    return await repositories.getCampaignFolderInfo(
+        folderId, fields, excludedFields);
+  }
+
+  Future<Map<String, dynamic>> updateCampaignFolder(
+      {String folderId, String name}) async {
+    return await repositories.updateCampaignFolder(folderId, name);
+  }
+
+  Future<void> deleteCampaignFolder(String folderId) async {
+    return await repositories.deleteCampaignFolder(folderId);
   }
 }

@@ -151,7 +151,7 @@ class MarketingRepositories {
         successCode: 204);
   }
 
-  Future<List<Map<String, dynamic>>> listAutomatedEmails(String id) async {
+  Future<Map<String, dynamic>> listAutomatedEmails(String id) async {
     return apiRequest(
         RequestType.GET, '/3.0${Endpoint.listAutomationEmails(id)}', {});
   }

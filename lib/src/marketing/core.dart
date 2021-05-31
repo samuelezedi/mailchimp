@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mailchimp/src/marketing/enums/api_request_enum.dart';
 import 'package:mailchimp/src/marketing/enums/delay.dart';
+import 'package:mailchimp/src/marketing/models/automated_email.dart';
 import 'package:mailchimp/src/marketing/repository.dart';
 
 import '../functions.dart';
@@ -112,9 +113,10 @@ class MailChimpMarketingCore {
     return await repositories.archiveAutomation(id);
   }
 
-  Future<List<Map<String, dynamic>>> listAutomatedEmails(
+  Future<List<AutomatedEmail>> listAutomatedEmails(
       {@required String id}) async {
-    return await repositories.listAutomatedEmails(id);
+    var res = await repositories.listAutomatedEmails(id);
+    return (res['emails'] as List).map((e) => AutomatedEmail.fromMap(e)).toList();
   }
 
   Future<Map<String, dynamic>> getWorkflowEmailInfo(

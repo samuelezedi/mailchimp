@@ -277,7 +277,7 @@ class MarketingRepositories {
         '/3.0${Endpoint.batchOperation(batchId)}', queryParameters);
   }
 
-  Future<Map<String, dynamic>> deleteBatchRequest(String batchId) async {
+  Future<void> deleteBatchRequest(String batchId) async {
     return apiRequest(
         RequestType.DELETE, '/3.0${Endpoint.batchOperation(batchId)}', {},
         successCode: 204);

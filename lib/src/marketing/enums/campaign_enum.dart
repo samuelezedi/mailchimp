@@ -7,3 +7,4 @@ enum CampaignFrequency {daily,weekly,monthly}
 enum CampaignWeekDay {sunday, monday, tuesday, wednesday, thursday, friday, saturday}
 enum CampaignSegmentType {any,all}
 enum CampaignWinnerCriteria{ opens, clicks, manual, total_revenue}
+enum CampaignTestEmailSendType {html,plaintext}

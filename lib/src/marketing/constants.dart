@@ -76,6 +76,6 @@ class Endpoint {
   static String paussRssCampaign(String campaignId) => '/campaigns/$campaignId/actions/pause';
   static String resumeRssCampaign(String campaignId) => '/campaigns/$campaignId/actions/resume';
   static String replicateCampaign(String campaignId) => '/campaigns/$campaignId/actions/replicate';
-  static String sendTestCampaign(String campaignId) => '/campaigns/$campaignId/actions/test';
+  static String sendTestEmail(String campaignId) => '/campaigns/$campaignId/actions/test';
   static String resendCampaign(String campaignId) => '/campaigns/$campaignId/actions/create-resend';
 }

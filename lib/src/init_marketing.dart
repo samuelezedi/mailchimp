@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mailchimp/src/marketing/enums/campaign_enum.dart';
 import 'package:mailchimp/src/marketing/enums/delay.dart';
 import 'package:mailchimp/src/marketing/models/automated_email.dart';
 import 'package:mailchimp/src/marketing/models/batch_operation.dart';
 import 'package:mailchimp/src/marketing/models/batch_webhook.dart';
+import 'package:mailchimp/src/marketing/models/campaign.dart';
 import 'package:mailchimp/src/marketing/models/campaign_folder.dart';
 import 'package:mailchimp/src/marketing/models/email_subscriber.dart';
 import 'package:mailchimp/src/transaction/core.dart';
@@ -291,5 +293,307 @@ class MailChimpMarketing {
 
   Future<void> deleteCampaignFolder(String folderId) async {
     return await _mailChimpMarketingCore.deleteCampaignFolder(folderId);
+  }
+
+  Future<List<Campaign>> getCampaigns(
+      {List<String> fields,
+      List<String> excludedFields,
+      int count,
+      int offset,
+      CampaignType type,
+      CampaignStatus status,
+      String beforeSendTime,
+      String sinceSendTime,
+      String beforeCreateTime,
+      String sinceCreateTime,
+      String listId,
+      String folderId,
+      String memberId,
+      CampaignSortField sortField,
+      CampaignSortDir sortDir}) async {
+    return await _mailChimpMarketingCore.getCampaigns(
+        fields,
+        excludedFields,
+        count,
+        offset,
+        type,
+        status,
+        beforeSendTime,
+        sinceSendTime,
+        beforeCreateTime,
+        sinceCreateTime,
+        listId,
+        folderId,
+        memberId,
+        sortField,
+        sortDir);
+  }
+
+  Future<Campaign> addCampaign(
+      {@required CampaignType type,
+      int hour,
+      bool sunday,
+      bool monday,
+      bool tuesday,
+      bool wednesday,
+      bool thursday,
+      bool friday,
+      bool saturday,
+      CampaignWeekDay weeklySendDay,
+      int monthlySendDate,
+      bool constrainRssImg,
+      String feedUrl,
+      CampaignFrequency frequency,
+      int savedSegmentId,
+      String prebuiltSegmentId,
+      CampaignSegmentType match,
+      List<dynamic> conditions,
+      String listId,
+      int waitTime,
+      int testSize,
+      List<String> subjectLines,
+      List<String> sendTimes,
+      List<String> fromNames,
+      List<String> replyToAddresses,
+      CampaignWinnerCriteria winnerCriteria,
+      String subjectLine,
+      String previewText,
+      String title,
+      String fromName,
+      String replyTo,
+      bool useConversation,
+      String toName,
+      String folderId,
+      bool authenticate,
+      bool autoFooter,
+      bool inlineCss,
+      bool autoTweet,
+      List<String> autoFbPost,
+      bool fbComments,
+      int templateId,
+      bool opens,
+      bool htmlClicks,
+      bool textClicks,
+      bool ecomm360,
+      String googleAnalytics,
+      String clicktale,
+      String imageUrl,
+      String description,
+      String socialCardTitle,
+      CampaignContentType campaignContentType}) async {
+    return await _mailChimpMarketingCore.addCampaign(
+        type,
+        hour,
+        sunday,
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday,
+        weeklySendDay,
+        monthlySendDate,
+        constrainRssImg,
+        feedUrl,
+        frequency,
+        savedSegmentId,
+        prebuiltSegmentId,
+        match,
+        conditions,
+        listId,
+        waitTime,
+        testSize,
+        subjectLines,
+        sendTimes,
+        fromNames,
+        replyToAddresses,
+        winnerCriteria,
+        subjectLine,
+        previewText,
+        title,
+        fromName,
+        replyTo,
+        useConversation,
+        toName,
+        folderId,
+        authenticate,
+        autoFooter,
+        inlineCss,
+        autoTweet,
+        autoFbPost,
+        fbComments,
+        templateId,
+        opens,
+        htmlClicks,
+        textClicks,
+        ecomm360,
+        googleAnalytics,
+        clicktale,
+        imageUrl,
+        description,
+        socialCardTitle,
+        campaignContentType);
+  }
+
+  Future<Campaign> getCampaignInfo(
+      {@required String campaignId,
+      List<String> fields,
+      List<String> excludedFields}) async {
+    return _mailChimpMarketingCore.getCampaignInfo(
+        campaignId, fields, excludedFields);
+  }
+
+  Future<Campaign> updateCampaign(
+      {@required String campaignId,
+      int hour,
+      bool sunday,
+      bool monday,
+      bool tuesday,
+      bool wednesday,
+      bool thursday,
+      bool friday,
+      bool saturday,
+      CampaignWeekDay weeklySendDay,
+      int monthlySendDate,
+      bool constrainRssImg,
+      String feedUrl,
+      CampaignFrequency frequency,
+      int savedSegmentId,
+      String prebuiltSegmentId,
+      CampaignSegmentType match,
+      List<dynamic> conditions,
+      String listId,
+      int waitTime,
+      int testSize,
+      List<String> subjectLines,
+      List<String> sendTimes,
+      List<String> fromNames,
+      List<String> replyToAddresses,
+      CampaignWinnerCriteria winnerCriteria,
+      String subjectLine,
+      String previewText,
+      String title,
+      String fromName,
+      String replyTo,
+      bool useConversation,
+      String toName,
+      String folderId,
+      bool authenticate,
+      bool autoFooter,
+      bool inlineCss,
+      bool autoTweet,
+      List<String> autoFbPost,
+      bool fbComments,
+      int templateId,
+      bool opens,
+      bool htmlClicks,
+      bool textClicks,
+      bool ecomm360,
+      String googleAnalytics,
+      String clicktale,
+      String imageUrl,
+      String description,
+      String socialCardTitle}) async {
+    return _mailChimpMarketingCore.updateCampaign(
+        campaignId,
+        hour,
+        sunday,
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday,
+        weeklySendDay,
+        monthlySendDate,
+        constrainRssImg,
+        feedUrl,
+        frequency,
+        savedSegmentId,
+        prebuiltSegmentId,
+        match,
+        conditions,
+        listId,
+        waitTime,
+        testSize,
+        subjectLines,
+        sendTimes,
+        fromNames,
+        replyToAddresses,
+        winnerCriteria,
+        subjectLine,
+        previewText,
+        title,
+        fromName,
+        replyTo,
+        useConversation,
+        toName,
+        folderId,
+        authenticate,
+        autoFooter,
+        inlineCss,
+        autoTweet,
+        autoFbPost,
+        fbComments,
+        templateId,
+        opens,
+        htmlClicks,
+        textClicks,
+        ecomm360,
+        googleAnalytics,
+        clicktale,
+        imageUrl,
+        description,
+        socialCardTitle);
+  }
+
+  Future<void> deleteCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.deleteCampaign(campaignId);
+  }
+
+  Future<void> cancelCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.cancelCampaign(campaignId);
+  }
+
+  Future<void> sendCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.sendCampaign(campaignId);
+  }
+
+  Future<void> scheduleCampaign(
+      {@required String campaignId,
+      String scheduleTime,
+      int batchDelay,
+      int batchCount,
+      bool timewarp}) async {
+    return await _mailChimpMarketingCore.scheduleCampaign(
+        campaignId, scheduleTime, batchDelay, batchCount, timewarp);
+  }
+
+  Future<void> unscheduleCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.unscheduleCampaign(campaignId);
+  }
+
+  Future<void> pauseRssCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.pauseRssCampaign(campaignId);
+  }
+
+  Future<void> resumeRssCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.resumeRssCampaign(campaignId);
+  }
+
+  Future<Campaign> replicateCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.replicateCampaign(campaignId);
+  }
+
+  Future<void> sendTestEmail(
+      {@required String campaignId,
+      List<String> testEmails,
+      CampaignTestEmailSendType sendType}) async {
+    return await _mailChimpMarketingCore.sendTestEmail(
+        campaignId, testEmails, sendType);
+  }
+
+  Future<Campaign> resendCampaign(String campaignId) async {
+    return await _mailChimpMarketingCore.resendCampaign(campaignId);
   }
 }

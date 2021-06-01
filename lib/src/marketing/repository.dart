@@ -424,27 +424,27 @@ class MarketingRepositories {
     return apiRequest(
         RequestType.POST, '/3.0${Endpoint.campaigns}', queryParameters);
   }
-    Future<Map<String, dynamic>> getCampaignInfo(
-        String campaignId, List<String> fields, List<String> excludedFields) async {
-      var queryParameters = {
-        'fields': fields,
-        'exclude_fields': excludedFields,
-      };
-      return apiRequest(RequestType.GET,
-          '/3.0${Endpoint.campaignInfo(campaignId)}', queryParameters);
-    }
+
+  Future<Map<String, dynamic>> getCampaignInfo(String campaignId,
+      List<String> fields, List<String> excludedFields) async {
+    var queryParameters = {
+      'fields': fields,
+      'exclude_fields': excludedFields,
+    };
+    return apiRequest(RequestType.GET,
+        '/3.0${Endpoint.campaignInfo(campaignId)}', queryParameters);
+  }
 
   Future<Map<String, dynamic>> updateCampaign(
-      String campaignId,
-      Map<String, dynamic> rssOpts,
-      Map<String, dynamic> recipients,
-      Map<String, dynamic> variateSettings,
-      Map<String, dynamic> settings,
-      Map<String, dynamic> tracking,
-      Map<String, dynamic> socialCard,
-     ) async {
+    String campaignId,
+    Map<String, dynamic> rssOpts,
+    Map<String, dynamic> recipients,
+    Map<String, dynamic> variateSettings,
+    Map<String, dynamic> settings,
+    Map<String, dynamic> tracking,
+    Map<String, dynamic> socialCard,
+  ) async {
     var queryParameters = {
-     
       "recipients": recipients,
       "settings": settings,
       "variate_settings": variateSettings,
@@ -452,8 +452,8 @@ class MarketingRepositories {
       "rss_opts": rssOpts,
       "social_card": socialCard,
     };
-    return apiRequest(
-        RequestType.PATCH, '/3.0${Endpoint.campaignInfo(campaignId)}', queryParameters);
+    return apiRequest(RequestType.PATCH,
+        '/3.0${Endpoint.campaignInfo(campaignId)}', queryParameters);
   }
 
   Future<void> deleteCampaign(String campaignId) async {
@@ -461,14 +461,28 @@ class MarketingRepositories {
         RequestType.DELETE, '/3.0${Endpoint.campaignInfo(campaignId)}', {},
         successCode: 204);
   }
+
   Future<void> cancelCampaign(String campaignId) async {
     return apiRequest(
         RequestType.POST, '/3.0${Endpoint.cancelCampaign(campaignId)}', {},
         successCode: 204);
   }
+
   Future<void> sendCampaign(String campaignId) async {
     return apiRequest(
         RequestType.POST, '/3.0${Endpoint.sendCampaign(campaignId)}', {},
+        successCode: 204);
+  }
+
+  Future<void> scheduleCampaign(String campaignId, String scheduleTime,
+      Map<String, dynamic> batchDelivery, bool timewarp) async {
+    var queryParamters = {
+      "schedule_time": scheduleTime,
+      "timewarp": timewarp,
+      "batch_delivery": batchDelivery
+    };
+    return apiRequest(RequestType.POST,
+        '/3.0${Endpoint.scheduleCampaign(campaignId)}', queryParamters,
         successCode: 204);
   }
 
@@ -477,20 +491,40 @@ class MarketingRepositories {
         RequestType.POST, '/3.0${Endpoint.unscheduleCampaign(campaignId)}', {},
         successCode: 204);
   }
-  Future<void> paussRssCampaign(String campaignId) async {
+
+  Future<void> pauseRssCampaign(String campaignId) async {
     return apiRequest(
         RequestType.POST, '/3.0${Endpoint.paussRssCampaign(campaignId)}', {},
         successCode: 204);
   }
+
   Future<void> resumeRssCampaign(String campaignId) async {
     return apiRequest(
         RequestType.POST, '/3.0${Endpoint.resumeRssCampaign(campaignId)}', {},
         successCode: 204);
   }
 
-  Future<Map<String,dynamic>> replicateCampaign(String campaignId) async {
+  Future<Map<String, dynamic>> replicateCampaign(String campaignId) async {
     return apiRequest(
-        RequestType.POST, '/3.0${Endpoint.replicateCampaign(campaignId)}', {},
-        );
+      RequestType.POST,
+      '/3.0${Endpoint.replicateCampaign(campaignId)}',
+      {},
+    );
+  }
+
+  Future<void> sendTestEmail(
+      String campaignId, List<String> testEmails, String sendType) async {
+    var queryParameters = {"test_emails": testEmails, "send_type": sendType};
+    return apiRequest(RequestType.POST,
+        '/3.0${Endpoint.replicateCampaign(campaignId)}', queryParameters,
+        successCode: 204);
+  }
+
+  Future<Map<String, dynamic>> resendCampaign(String campaignId) async {
+    return apiRequest(
+      RequestType.POST,
+      '/3.0${Endpoint.resendCampaign(campaignId)}',
+      {},
+    );
   }
 }

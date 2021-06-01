@@ -491,9 +491,9 @@ class MailChimpMarketingCore {
   }
 
   Future<Campaign> getCampaignInfo(
-      {String campaignId,
+      String campaignId,
         List<String> fields,
-        List<String> excludedFields}) async {
+        List<String> excludedFields) async {
     return Campaign.fromMap(await repositories.getCampaignInfo(
         campaignId, fields, excludedFields));
   }
@@ -622,5 +622,43 @@ class MailChimpMarketingCore {
 
   Future<void> deleteCampaign(String campaignId) async {
     return await repositories.deleteCampaign(campaignId);
+  }
+
+  Future<void> cancelCampaign(String campaignId) async {
+    return await repositories.cancelCampaign(campaignId);
+  }
+
+  Future<void> sendCampaign(String campaignId) async {
+    return await repositories.sendCampaign(campaignId);
+  }
+
+  Future<void> scheduleCampaign(String campaignId, String scheduleTime,
+      int batchDelay, int batchCount, bool timewarp) async {
+    var batchDelivery = {"batch_delay":batchDelay,"batch_count":batchCount};
+    return await repositories.scheduleCampaign(campaignId, scheduleTime, batchDelivery, timewarp);
+  }
+
+  Future<void> unscheduleCampaign(String campaignId) async {
+    return await repositories.unscheduleCampaign(campaignId);
+  }
+
+  Future<void> pauseRssCampaign(String campaignId) async {
+    return await repositories.pauseRssCampaign(campaignId);
+  }
+
+  Future<void> resumeRssCampaign(String campaignId) async {
+    return await repositories.resumeRssCampaign(campaignId);
+  }
+
+  Future<Campaign> replicateCampaign(String campaignId) async {
+    return Campaign.fromMap(await repositories.replicateCampaign(campaignId));
+  }
+
+  Future<void> sendTestEmail(String campaignId,List<String> testEmails, CampaignTestEmailSendType sendType) async {
+    return await repositories.sendTestEmail(campaignId, testEmails, fetchStringOfEnum(sendType));
+  }
+
+  Future<Campaign> resendCampaign(String campaignId) async {
+    return Campaign.fromMap(await repositories.resendCampaign(campaignId));
   }
 }

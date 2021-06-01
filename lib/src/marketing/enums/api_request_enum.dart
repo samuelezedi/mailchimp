@@ -1,3 +1,3 @@
 enum RequestType{
-  GET,POST,DELETE,PATCH
+  GET,POST,DELETE,PATCH,PUT
 }

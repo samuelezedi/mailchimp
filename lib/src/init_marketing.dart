@@ -5,6 +5,8 @@ import 'package:mailchimp/src/marketing/models/automated_email.dart';
 import 'package:mailchimp/src/marketing/models/batch_operation.dart';
 import 'package:mailchimp/src/marketing/models/batch_webhook.dart';
 import 'package:mailchimp/src/marketing/models/campaign.dart';
+import 'package:mailchimp/src/marketing/models/campaign_content.dart';
+import 'package:mailchimp/src/marketing/models/campaign_feedback.dart';
 import 'package:mailchimp/src/marketing/models/campaign_folder.dart';
 import 'package:mailchimp/src/marketing/models/email_subscriber.dart';
 import 'package:mailchimp/src/transaction/core.dart';
@@ -595,5 +597,79 @@ class MailChimpMarketing {
 
   Future<Campaign> resendCampaign(String campaignId) async {
     return await _mailChimpMarketingCore.resendCampaign(campaignId);
+  }
+
+  Future<CampaignContent> getCampaignContent(
+      {@required String campaignId,
+      List<String> fields,
+      List<String> excludeFields}) async {
+    return await _mailChimpMarketingCore.getCampaignContent(
+        campaignId, fields, excludeFields);
+  }
+
+  Future<CampaignContent> setCampaignContent(
+      {@required String archiveContent,
+      @required String templateId,
+      String campaignId,
+      CampaignContentArchiveType archiveType,
+      Map<String, dynamic> sections,
+      String plainText,
+      String html,
+      String url,
+      String contentLabel}) async {
+    return await _mailChimpMarketingCore.setCampaignContent(
+        campaignId,
+        archiveType,
+        archiveContent,
+        sections,
+        templateId,
+        plainText,
+        html,
+        url,
+        contentLabel);
+  }
+
+  Future<List<CampaignFeedback>> getCampaignFeedback(
+      {@required String campaignId,
+      List<String> fields,
+      List<String> excludeFields}) async {
+    return await _mailChimpMarketingCore.getCampaignFeedback(
+        campaignId, fields, excludeFields);
+  }
+
+  Future<CampaignFeedback> addCampaignFeedback(
+      {@required String campaignId,
+      @required String message,
+      int blockId,
+      bool isComplete}) async {
+    return await _mailChimpMarketingCore.addCampaignFeedback(
+        campaignId, message, blockId, isComplete);
+  }
+
+  Future<CampaignFeedback> getCampaignFeedbackMessage(
+      {@required String campaignId,
+      @required String feedbackId,
+      List<String> fields,
+      List<String> excludeFields}) async {
+    return await _mailChimpMarketingCore.getCampaignFeedbackMessage(
+        campaignId, feedbackId, fields, excludeFields);
+  }
+
+  Future<CampaignFeedback> updateCampaignFeedback(
+      {@required String campaignId,
+      @required String feedbackId,
+      String message,
+      int blockId,
+      bool isComplete}) async {
+    return await _mailChimpMarketingCore.updateCampaignFeedback(
+        campaignId, feedbackId, message, blockId, isComplete);
+  }
+
+  Future<void> deleteCampaignFeedback({
+    @required String campaignId,
+    @required String feedbackId,
+  }) async {
+    return await _mailChimpMarketingCore.deleteCampaignFeedback(
+        campaignId, feedbackId);
   }
 }

@@ -38,7 +38,9 @@ class MarketingRepositories {
               ? await post(uri, headers: headers)
               : type == RequestType.DELETE
                   ? await delete(uri, headers: headers)
-                  : await patch(uri, headers: headers);
+                  : type == RequestType.PUT
+                      ? await put(uri, headers: headers)
+                      : await patch(uri, headers: headers);
 
       print(response.body);
       if (response.statusCode == successCode) {
@@ -526,5 +528,104 @@ class MarketingRepositories {
       '/3.0${Endpoint.resendCampaign(campaignId)}',
       {},
     );
+  }
+
+  Future<Map<String, dynamic>> getCampaignContent(
+      String campaignId, List<String> fields, List<String> excludeFields) {
+    var queryParameters = {
+      'fields': fields,
+      'exclude_fields': excludeFields,
+    };
+    return apiRequest(
+      RequestType.GET,
+      '/3.0${Endpoint.campaignContent(campaignId)}',
+      queryParameters,
+    );
+  }
+
+  Future<Map<String, dynamic>> setCampaignContent(
+      String campaignId,
+      Map<String, String> archive,
+      Map<String, dynamic> template,
+      String plainText,
+      String html,
+      String url,
+      List<Map<String, dynamic>> variateContents) {
+    var queryParameters = {
+      "plain_text": plainText,
+      "html": html,
+      "url": url,
+      "template": template,
+      "archive": archive,
+      "variate_contents": variateContents
+    };
+    return apiRequest(
+      RequestType.PUT,
+      '/3.0${Endpoint.campaignContent(campaignId)}',
+      queryParameters,
+    );
+  }
+
+  Future<Map<String, dynamic>> getCampaignFeedback(
+      String campaignId, List<String> fields, List<String> excludeFields) {
+    var queryParameters = {
+      'fields': fields,
+      'exclude_fields': excludeFields,
+    };
+    return apiRequest(
+      RequestType.GET,
+      '/3.0${Endpoint.campaignFeedback(campaignId)}',
+      queryParameters,
+    );
+  }
+
+  Future<Map<String, dynamic>> addCampaignFeedback(
+      String campaignId, String message, int blockId, bool isComplete) {
+    var queryParameters = {
+      "block_id": blockId,
+      "message": message,
+      "is_complete": isComplete
+    };
+    return apiRequest(
+      RequestType.POST,
+      '/3.0${Endpoint.campaignFeedback(campaignId)}',
+      queryParameters,
+    );
+  }
+
+  Future<Map<String, dynamic>> getCampaignFeedbackMessage(String campaignId,
+      String feedbackId, List<String> fields, List<String> excludeFields) {
+    var queryParameters = {
+      'fields': fields,
+      'exclude_fields': excludeFields,
+    };
+    return apiRequest(
+      RequestType.GET,
+      '/3.0${Endpoint.campaignFeedbackInfo(campaignId, feedbackId)}',
+      queryParameters,
+    );
+  }
+
+  Future<Map<String, dynamic>> updateCampaignFeedback(String campaignId,
+      String feedbackId, String message, int blockId, bool isComplete) {
+    var queryParameters = {
+      "block_id": blockId,
+      "message": message,
+      "is_complete": isComplete
+    };
+    return apiRequest(
+      RequestType.PATCH,
+      '/3.0${Endpoint.campaignFeedbackInfo(campaignId, feedbackId)}',
+      queryParameters,
+    );
+  }
+
+  Future<void> deleteCampaignFeedback(
+    String campaignId,
+    String feedbackId,
+  ) {
+    return apiRequest(RequestType.DELETE,
+        '/3.0${Endpoint.campaignFeedbackInfo(campaignId, feedbackId)}', {},
+        successCode: 204);
   }
 }

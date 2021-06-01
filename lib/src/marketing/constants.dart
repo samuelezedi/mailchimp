@@ -59,23 +59,47 @@ class Endpoint {
 
   static const String batchWebhooks = '/batch-webhooks';
 
-  static String batchWebhookInfo(String batchWebhookId) => '/batch-webhooks/$batchWebhookId';
+  static String batchWebhookInfo(String batchWebhookId) =>
+      '/batch-webhooks/$batchWebhookId';
 
   static const String campaignFolders = '/campaign-folders';
 
-  static String campaignFolderInfo(String folderId) => '/campaign-folders/$folderId';
+  static String campaignFolderInfo(String folderId) =>
+      '/campaign-folders/$folderId';
 
   static const String campaigns = '/campaigns';
 
   static String campaignInfo(String campaignId) => '/campaigns/$campaignId';
 
-  static String cancelCampaign(String campaignId) => '/campaigns/$campaignId/actions/cancel-send';
-  static String sendCampaign(String campaignId) => '/campaigns/$campaignId/actions/send';
-  static String scheduleCampaign(String campaignId) => '/campaigns/$campaignId/actions/schedule';
-  static String unscheduleCampaign(String campaignId) => '/campaigns/$campaignId/actions/unschedule';
-  static String paussRssCampaign(String campaignId) => '/campaigns/$campaignId/actions/pause';
-  static String resumeRssCampaign(String campaignId) => '/campaigns/$campaignId/actions/resume';
-  static String replicateCampaign(String campaignId) => '/campaigns/$campaignId/actions/replicate';
-  static String sendTestEmail(String campaignId) => '/campaigns/$campaignId/actions/test';
-  static String resendCampaign(String campaignId) => '/campaigns/$campaignId/actions/create-resend';
+  static String cancelCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/cancel-send';
+
+  static String sendCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/send';
+
+  static String scheduleCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/schedule';
+
+  static String unscheduleCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/unschedule';
+
+  static String paussRssCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/pause';
+
+  static String resumeRssCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/resume';
+
+  static String replicateCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/replicate';
+
+  static String sendTestEmail(String campaignId) =>
+      '/campaigns/$campaignId/actions/test';
+
+  static String resendCampaign(String campaignId) =>
+      '/campaigns/$campaignId/actions/create-resend';
+
+  static String campaignContent(String campaignId) => '/campaigns/$campaignId/content';
+
+  static String campaignFeedback(String campaignId) => '/campaigns/$campaignId/feedback';
+  static String campaignFeedbackInfo(String campaignId,String feedbackId) => '/campaigns/$campaignId/feedback/$feedbackId';
 }

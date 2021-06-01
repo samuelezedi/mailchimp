@@ -8,6 +8,8 @@ import 'package:mailchimp/src/marketing/models/automated_email.dart';
 import 'package:mailchimp/src/marketing/models/batch_operation.dart';
 import 'package:mailchimp/src/marketing/models/batch_webhook.dart';
 import 'package:mailchimp/src/marketing/models/campaign.dart';
+import 'package:mailchimp/src/marketing/models/campaign_content.dart';
+import 'package:mailchimp/src/marketing/models/campaign_feedback.dart';
 import 'package:mailchimp/src/marketing/models/campaign_folder.dart';
 import 'package:mailchimp/src/marketing/models/email_subscriber.dart';
 import 'package:mailchimp/src/marketing/repository.dart';
@@ -487,15 +489,21 @@ class MailChimpMarketingCore {
         "conditions": conditions
       }
     };
-  return Campaign.fromMap(await repositories.addCampaign(fetchStringOfEnum(type), rssOpts, recipients, variateSettings, settings, tracking, socialCard, fetchStringOfEnum(campaignContentType)));
+    return Campaign.fromMap(await repositories.addCampaign(
+        fetchStringOfEnum(type),
+        rssOpts,
+        recipients,
+        variateSettings,
+        settings,
+        tracking,
+        socialCard,
+        fetchStringOfEnum(campaignContentType)));
   }
 
-  Future<Campaign> getCampaignInfo(
-      String campaignId,
-        List<String> fields,
-        List<String> excludedFields) async {
-    return Campaign.fromMap(await repositories.getCampaignInfo(
-        campaignId, fields, excludedFields));
+  Future<Campaign> getCampaignInfo(String campaignId, List<String> fields,
+      List<String> excludedFields) async {
+    return Campaign.fromMap(
+        await repositories.getCampaignInfo(campaignId, fields, excludedFields));
   }
 
   Future<Campaign> updateCampaign(
@@ -617,7 +625,8 @@ class MailChimpMarketingCore {
         "conditions": conditions
       }
     };
-    return Campaign.fromMap(await repositories.updateCampaign(campaignId, rssOpts, recipients, variateSettings, settings, tracking, socialCard));
+    return Campaign.fromMap(await repositories.updateCampaign(campaignId,
+        rssOpts, recipients, variateSettings, settings, tracking, socialCard));
   }
 
   Future<void> deleteCampaign(String campaignId) async {
@@ -634,8 +643,9 @@ class MailChimpMarketingCore {
 
   Future<void> scheduleCampaign(String campaignId, String scheduleTime,
       int batchDelay, int batchCount, bool timewarp) async {
-    var batchDelivery = {"batch_delay":batchDelay,"batch_count":batchCount};
-    return await repositories.scheduleCampaign(campaignId, scheduleTime, batchDelivery, timewarp);
+    var batchDelivery = {"batch_delay": batchDelay, "batch_count": batchCount};
+    return await repositories.scheduleCampaign(
+        campaignId, scheduleTime, batchDelivery, timewarp);
   }
 
   Future<void> unscheduleCampaign(String campaignId) async {
@@ -654,11 +664,84 @@ class MailChimpMarketingCore {
     return Campaign.fromMap(await repositories.replicateCampaign(campaignId));
   }
 
-  Future<void> sendTestEmail(String campaignId,List<String> testEmails, CampaignTestEmailSendType sendType) async {
-    return await repositories.sendTestEmail(campaignId, testEmails, fetchStringOfEnum(sendType));
+  Future<void> sendTestEmail(String campaignId, List<String> testEmails,
+      CampaignTestEmailSendType sendType) async {
+    return await repositories.sendTestEmail(
+        campaignId, testEmails, fetchStringOfEnum(sendType));
   }
 
   Future<Campaign> resendCampaign(String campaignId) async {
     return Campaign.fromMap(await repositories.resendCampaign(campaignId));
+  }
+
+  Future<CampaignContent> getCampaignContent(String campaignId,
+      List<String> fields, List<String> excludeFields) async {
+    return CampaignContent.fromMap(await repositories.getCampaignContent(
+        campaignId, fields, excludeFields));
+  }
+
+  Future<CampaignContent> setCampaignContent(
+      String campaignId,
+      CampaignContentArchiveType archiveType,
+      String archiveContent,
+      Map<String, dynamic> sections,
+      String templateId,
+      String plainText,
+      String html,
+      String url,
+      String contentLabel) async {
+    Map<String, dynamic> template = {"id": templateId, "sections": sections};
+    Map<String, dynamic> archive = {
+      "archive_content": archiveContent,
+      "archive_type": fetchStringOfEnum(archiveType).replaceAll('DOT', '.')
+    };
+    List<dynamic> variateContents = [
+      archive,
+      template,
+      contentLabel,
+      plainText,
+      html,
+      url
+    ];
+    return CampaignContent.fromMap(await repositories.setCampaignContent(
+        campaignId, archive, template, plainText, html, url, variateContents));
+  }
+
+  Future<List<CampaignFeedback>> getCampaignFeedback(String campaignId,
+      List<String> fields, List<String> excludeFields) async {
+    var res = await repositories.getCampaignFeedback(
+        campaignId, fields, excludeFields);
+    return (res['feedback'] as List)
+        .map((e) => CampaignFeedback.fromMap(e))
+        .toList();
+  }
+
+  Future<CampaignFeedback> addCampaignFeedback(
+      String campaignId, String message, int blockId, bool isComplete) async {
+    return CampaignFeedback.fromMap(await repositories.addCampaignFeedback(
+        campaignId, message, blockId, isComplete));
+  }
+
+  Future<CampaignFeedback> getCampaignFeedbackMessage(
+      String campaignId,
+      String feedbackId,
+      List<String> fields,
+      List<String> excludeFields) async {
+    return CampaignFeedback.fromMap(
+        await repositories.getCampaignFeedbackMessage(
+            campaignId, feedbackId, fields, excludeFields));
+  }
+
+  Future<CampaignFeedback> updateCampaignFeedback(String campaignId,
+      String feedbackId, String message, int blockId, bool isComplete) async{
+
+    return CampaignFeedback.fromMap(await repositories.updateCampaignFeedback(campaignId, feedbackId, message, blockId, isComplete));
+  }
+
+  Future<void> deleteCampaignFeedback(
+      String campaignId,
+      String feedbackId,
+      ) async{
+    return await repositories.deleteCampaignFeedback(campaignId, feedbackId);
   }
 }

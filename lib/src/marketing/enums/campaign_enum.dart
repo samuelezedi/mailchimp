@@ -8,3 +8,4 @@ enum CampaignWeekDay {sunday, monday, tuesday, wednesday, thursday, friday, satu
 enum CampaignSegmentType {any,all}
 enum CampaignWinnerCriteria{ opens, clicks, manual, total_revenue}
 enum CampaignTestEmailSendType {html,plaintext}
+enum CampaignContentArchiveType { zip, tarDOTgz, tarDOTbz2, tar, tgz, tbz}

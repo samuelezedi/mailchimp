@@ -1,11 +1,11 @@
 enum DelayType{
-  NOW,DAY,HOUR,WEEK
+  now,day,hour,week
 }
 
 enum DelayDirection{
-  BEFORE,AFTER
+  before,after
 }
 
 enum DelayAction{
-  SIGNUP,ECOMM_ABANDONED_BROWSE,ECOMM_ABANDONED_CART
+  signup,ecomm_abandoned_browse,ecomm_abandoned_cart
 }

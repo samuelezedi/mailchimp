@@ -1,6 +1,6 @@
 
 enum AutomationStatus {
-  SAVED,
-  PAUSED,
-  SENDING
+  saved,
+  paused,
+  sending
 }

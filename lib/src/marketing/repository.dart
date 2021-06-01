@@ -320,7 +320,8 @@ class MarketingRepositories {
 
   Future<void> deleteBatchWebhook(String batchWebhookId) async {
     return apiRequest(RequestType.DELETE,
-        '/3.0${Endpoint.batchWebhookInfo(batchWebhookId)}', {},successCode: 204);
+        '/3.0${Endpoint.batchWebhookInfo(batchWebhookId)}', {},
+        successCode: 204);
   }
 
   Future<Map<String, dynamic>> getCampaignFolders(List<String> fields,
@@ -341,8 +342,8 @@ class MarketingRepositories {
         RequestType.POST, '/3.0${Endpoint.campaignFolders}', queryParameters);
   }
 
-  Future<Map<String, dynamic>> getCampaignFolderInfo(String folderId,
-      List<String> fields, List<String> excludedFields) async {
+  Future<Map<String, dynamic>> getCampaignFolderInfo(
+      String folderId, List<String> fields, List<String> excludedFields) async {
     var queryParameters = {
       'fields': fields,
       'exclude_fields': excludedFields,
@@ -359,7 +360,137 @@ class MarketingRepositories {
   }
 
   Future<void> deleteCampaignFolder(String folderId) async {
-    return apiRequest(RequestType.DELETE,
-        '/3.0${Endpoint.campaignFolderInfo(folderId)}', {},successCode: 204);
+    return apiRequest(
+        RequestType.DELETE, '/3.0${Endpoint.campaignFolderInfo(folderId)}', {},
+        successCode: 204);
+  }
+
+  Future<Map<String, dynamic>> getCampaigns(
+      List<String> fields,
+      List<String> excludedFields,
+      int count,
+      int offset,
+      String type,
+      String status,
+      String beforeSendTime,
+      String sinceSendTime,
+      String beforeCreateTime,
+      String sinceCreateTime,
+      String listId,
+      String folderId,
+      String memberId,
+      String sortField,
+      String sortDir) async {
+    var queryParameters = {
+      'fields': fields,
+      'exclude_fields': excludedFields,
+      'count': count,
+      'offset': offset,
+      'type': type,
+      'status': status,
+      'before_send_time': beforeSendTime,
+      'since_send_time': sinceSendTime,
+      'before_create_time': beforeCreateTime,
+      'since_create_time': sinceCreateTime,
+      'list_id': listId,
+      'folder_id': folderId,
+      'member_id': memberId,
+      'sort_field': sortField,
+      'sort_dir': sortDir
+    };
+    return apiRequest(
+        RequestType.GET, '/3.0${Endpoint.campaigns}', queryParameters);
+  }
+
+  Future<Map<String, dynamic>> addCampaign(
+      String type,
+      Map<String, dynamic> rssOpts,
+      Map<String, dynamic> recipients,
+      Map<String, dynamic> variateSettings,
+      Map<String, dynamic> settings,
+      Map<String, dynamic> tracking,
+      Map<String, dynamic> socialCard,
+      String contentType) async {
+    var queryParameters = {
+      "type": type,
+      "recipients": recipients,
+      "settings": settings,
+      "variate_settings": variateSettings,
+      "tracking": tracking,
+      "rss_opts": rssOpts,
+      "social_card": socialCard,
+      "content_type": contentType
+    };
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.campaigns}', queryParameters);
+  }
+    Future<Map<String, dynamic>> getCampaignInfo(
+        String campaignId, List<String> fields, List<String> excludedFields) async {
+      var queryParameters = {
+        'fields': fields,
+        'exclude_fields': excludedFields,
+      };
+      return apiRequest(RequestType.GET,
+          '/3.0${Endpoint.campaignInfo(campaignId)}', queryParameters);
+    }
+
+  Future<Map<String, dynamic>> updateCampaign(
+      String campaignId,
+      Map<String, dynamic> rssOpts,
+      Map<String, dynamic> recipients,
+      Map<String, dynamic> variateSettings,
+      Map<String, dynamic> settings,
+      Map<String, dynamic> tracking,
+      Map<String, dynamic> socialCard,
+     ) async {
+    var queryParameters = {
+     
+      "recipients": recipients,
+      "settings": settings,
+      "variate_settings": variateSettings,
+      "tracking": tracking,
+      "rss_opts": rssOpts,
+      "social_card": socialCard,
+    };
+    return apiRequest(
+        RequestType.PATCH, '/3.0${Endpoint.campaignInfo(campaignId)}', queryParameters);
+  }
+
+  Future<void> deleteCampaign(String campaignId) async {
+    return apiRequest(
+        RequestType.DELETE, '/3.0${Endpoint.campaignInfo(campaignId)}', {},
+        successCode: 204);
+  }
+  Future<void> cancelCampaign(String campaignId) async {
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.cancelCampaign(campaignId)}', {},
+        successCode: 204);
+  }
+  Future<void> sendCampaign(String campaignId) async {
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.sendCampaign(campaignId)}', {},
+        successCode: 204);
+  }
+
+  Future<void> unscheduleCampaign(String campaignId) async {
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.unscheduleCampaign(campaignId)}', {},
+        successCode: 204);
+  }
+  Future<void> paussRssCampaign(String campaignId) async {
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.paussRssCampaign(campaignId)}', {},
+        successCode: 204);
+  }
+  Future<void> resumeRssCampaign(String campaignId) async {
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.resumeRssCampaign(campaignId)}', {},
+        successCode: 204);
+  }
+
+  Future<Map<String,dynamic>> replicateCampaign(String campaignId) async {
+    return apiRequest(
+        RequestType.POST, '/3.0${Endpoint.replicateCampaign(campaignId)}', {},
+        );
   }
 }
